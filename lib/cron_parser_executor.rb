@@ -7,16 +7,18 @@ class CronParserExecutor
 
   def self.parse_cron(input)
     errors = {}
+
     parser_obj = CronParser.new(input, errors)
     unless errors.empty?
       display_errors(errors)
+      return
     else
       parsed_data, parser_errors = parser_obj.parse(errors)
       unless parser_errors.keys.empty?
         display_errors(parser_errors)
+        return
       else
         display_parsed_value(parsed_data)
-        # binding.pry
         return parsed_data
       end
     end

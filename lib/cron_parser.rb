@@ -76,7 +76,7 @@ class CronParser
 
   def parse_frequency(inp_key, result, parser_errors)
     default_left, default_right = DATA_RANGE[inp_key].split("-").map(&:to_i)
-    default_values = (default_left..default_right).to_a.to_set
+    default_values = (default_left..default_right).to_a
 
     freq = self.send(inp_key.to_sym).split("/")
 
@@ -92,7 +92,6 @@ class CronParser
     end
 
     freq_set = {}
-
     if Validate.is_wildcard?(numerator)
       freq_set = default_values
     elsif Validate.is_fixed?(numerator)
@@ -150,7 +149,10 @@ class CronParser
       end
     end
 
-    parser_errors[inp_key] = list_errors
+    unless list_errors.empty?
+      parser_errors[inp_key] = list_errors
+      return result, parser_errors
+    end
     result[inp_key] = list_values
     return result, parser_errors
   end

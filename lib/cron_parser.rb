@@ -86,7 +86,7 @@ class CronParser
     end
 
     numerator, denominator = freq
-    if denominator.to_i.to_s != denominator
+    if denominator.to_i.to_s != denominator || denominator.to_i == 0
       parser_errors[inp_key] = 'frequency divisor is incorrect'
       return result, parser_errors
     end
